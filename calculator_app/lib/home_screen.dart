@@ -1,6 +1,6 @@
 import 'package:calculator_app/components/my_button.dart';
-import 'package:math_expressions/math_expressions.dart';
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,14 +25,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        userInput.toString(),
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          userInput.toString(),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       Text(
                         answer.toString(),
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white),
                       )
                     ],
                   ),
@@ -62,25 +72,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             answer = '';
                             setState(() {});
                           },
-                          color: Color(0xffffa00a),
+                          color: const Color(0xffffa00a),
                         ),
                         MyButton(
                             title: '+/-',
-                            color: Color(0xffffa00a),
+                            color: const Color(0xffffa00a),
                             onpress: () {
                               userInput += '+/-';
                               setState(() {});
                             }),
                         MyButton(
                             title: '%',
-                            color: Color(0xffffa00a),
+                            color: const Color(0xffffa00a),
                             onpress: () {
                               userInput += '%';
                               setState(() {});
                             }),
                         MyButton(
                             title: '/',
-                            color: Color(0xffffa00a),
+                            color: const Color(0xffffa00a),
                             onpress: () {
                               userInput += '/';
                               setState(() {});
@@ -110,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }),
                         MyButton(
                             title: 'x',
-                            color: Color(0xffffa00a),
+                            color: const Color(0xffffa00a),
                             onpress: () {
                               userInput += 'x';
                               setState(() {});
@@ -140,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }),
                         MyButton(
                             title: '-',
-                            color: Color(0xffffa00a),
+                            color: const Color(0xffffa00a),
                             onpress: () {
                               userInput += '-';
                               setState(() {});
@@ -170,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }),
                         MyButton(
                             title: '+',
-                            color: Color(0xffffa00a),
+                            color: const Color(0xffffa00a),
                             onpress: () {
                               userInput += '+';
                               setState(() {});
@@ -180,9 +190,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       children: [
                         MyButton(
-                          title: '%',
+                          title: '.',
                           onpress: () {
-                            userInput += '%';
+                            userInput += '.';
                             setState(() {});
                           },
                         ),
@@ -193,16 +203,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               setState(() {});
                             }),
                         MyButton(
-                            title: '.',
+                            title: 'Del',
                             onpress: () {
-                              userInput += '.';
+                              userInput =
+                                  userInput.substring(0, userInput.length - 1);
+
                               setState(() {});
                             }),
                         MyButton(
                             title: '=',
-                            color: Color(0xffffa00a),
+                            color: const Color(0xffffa00a),
                             onpress: () {
-                              userInput += '=';
+                              equalPress();
                               setState(() {});
                             }),
                       ],
@@ -215,5 +227,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void equalPress() {
+    String finalUserInput = userInput;
+    finalUserInput = userInput.replaceAll('x', '*');
+    Parser p = Parser();
+    Expression expression = p.parse(finalUserInput);
+    ContextModel contextModel = ContextModel();
+
+    double eval = expression.evaluate(EvaluationType.REAL, contextModel);
+    answer = eval.toString();
   }
 }
