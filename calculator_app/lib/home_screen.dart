@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Expanded(
+                flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30),
                   child: Column(
@@ -33,16 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           userInput.toString(),
                           style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
+                              fontSize: 30, color: Colors.white),
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Text(
                         answer.toString(),
                         style:
-                            const TextStyle(fontSize: 20, color: Colors.white),
+                            const TextStyle(fontSize: 30, color: Colors.white),
                       )
                     ],
                   ),
